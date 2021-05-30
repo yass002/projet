@@ -1,0 +1,145 @@
+<form #f="ngForm" (ngSubmit)="f.form.valid && valider()">
+<div class="card">
+  <div class="card-header">
+   {{title}}
+
+  </div>
+
+  <div class="card-body">
+  <!--  <div class="form-group col-sm-8 ">
+      <label>Structure N 1</label>
+      <select class="form-control" [(ngModel)]="selectedParent" name="parent" (change)="getByParent()">
+        <option></option>
+        <option *ngFor="let stru of structures" [ngValue]="stru">{{stru.nom}}</option>
+      </select>
+
+    </div>
+
+  <div *ngFor="let child of childrens; let i = index">
+
+    <div class="form-group col-sm-8">
+      <label>Structure N {{i+2}}</label>
+      <select class="form-control" [(ngModel)]="childrens[i].id"  name="child"  (change)="getByChild(childrens[i].id)">
+        <option></option>
+        <option *ngFor="let stru of child" [ngValue]="stru.id">{{stru.nom}}</option>
+      </select>
+    </div>
+    </div>-->
+
+
+    <div *ngIf="nodes?.length > 0" class="form-group col-sm-8 ">
+      <label>Structure</label>
+    <p-tree   [value]="nodes" selectionMode="checkbox" [(selection)]="selectedFiles"  [filter]="true"
+              [propagateSelectionUp]="false" [propagateSelectionDown]="false"
+              (onNodeSelect)="onSelectNode($event)" ></p-tree>
+    </div>
+    <div class="form-group col-sm-8 ">
+      <label>Gouvernorat</label>
+      <select class="form-control {{f.submitted && gouv.invalid? 'is-invalid': ''}}"
+              [compareWith]="compareFn"
+              [(ngModel)]="selectedGouvernorat" name="gouv" required #gouv="ngModel" (change)="getDelegationByGouvernorat()">
+        <option *ngFor="let gov of gouvernorats" [ngValue]="gov">{{gov.nomFr}}</option>
+      </select>
+      <div  class="invalid-feedback">Gouvernorat réquis</div>
+    </div>
+
+    <div class="form-group col-sm-8 ">
+      <label>Délegation</label>
+      <select  [compareWith]="compareFn"
+        class="form-control {{f.submitted && del.invalid? 'is-invalid': ''}}" [(ngModel)]="structure.delegation" name="del"
+              required #del="ngModel">
+        <option *ngFor="let dell of delegations" [ngValue]="dell">{{dell.nomFr}}</option>
+      </select>
+      <div  class="invalid-feedback">Délegation réquis</div>
+    </div>
+
+    <div class="form-group col-sm-8 ">
+      <label>Type</label>
+      <select  [compareWith]="compareFn"
+        class="form-control {{f.submitted && type.invalid? 'is-invalid': ''}}" [(ngModel)]="structure.type"   name="type"
+              required #type="ngModel">
+        <option *ngFor="let typ of types" [ngValue]="typ">{{typ.nomFr}}</option>
+      </select>
+      <div  class="invalid-feedback">type réquis</div>
+    </div>
+
+    <div class="form-group col-sm-8">
+      <label>Nom</label>
+      <input class="form-control {{f.submitted && nom.invalid? 'is-invalid': ''}}" name="nom" [(ngModel)]="structure.nom" required #nom="ngModel">
+
+      <div  class="invalid-feedback">Nom réquis</div>
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Code</label>
+      <input class="form-control {{f.submitted && code.invalid? 'is-invalid': ''}}" name="code"  [(ngModel)]="structure.code"
+             pKeyFilter="pint"
+             required #code="ngModel">
+      <div  class="invalid-feedback">Code réquis</div>
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Acronyme</label>
+      <input class="form-control {{f.submitted && acro.invalid? 'is-invalid': ''}}" name="acro"  [(ngModel)]="structure.acronyme" required #acro="ngModel">
+      <div  class="invalid-feedback">Acronyme réquis</div>
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Adresse</label>
+      <input class="form-control {{f.submitted && adresse.invalid? 'is-invalid': ''}}" name="adresse"  [(ngModel)]="structure.adresse" required #adresse="ngModel">
+      <div  class="invalid-feedback">Adresse réquis</div>
+
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Email</label>
+      <input class="form-control {{f.submitted && email.invalid? 'is-invalid': ''}}" name="email"
+             [(ngModel)]="structure.mail" required #email="ngModel" pKeyFilter="email" email>
+      <div  class="invalid-feedback">
+      <div *ngIf="email.errors?.required"> Email réquis</div>
+      <div *ngIf="email.errors?.email"> Email invalid</div>
+      </div>
+
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Téléphone</label>
+      <input class="form-control {{f.submitted && tel.invalid? 'is-invalid': ''}}" name="tel" [(ngModel)]="structure.tel"
+             required #tel="ngModel" pKeyFilter="pint" maxlength="8" minlength="8">
+      <div  class="invalid-feedback">
+
+        <div *ngIf="tel.errors?.required"> Téléphone réquis</div>
+        <div *ngIf="tel.errors?.minlength"> Téléphone doit contenir 8 chiffres</div>
+      </div>
+
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Rue</label>
+      <input class="form-control {{f.submitted && rue.invalid? 'is-invalid': ''}}" name="rue" [(ngModel)]="structure.rue" required #rue="ngModel">
+      <div  class="invalid-feedback">   Rue réquis</div>
+
+    </div>
+
+    <div class="form-group col-sm-8">
+      <label>Code Postal</label>
+      <input class="form-control {{f.submitted && codeP.invalid? 'is-invalid': ''}}" name="codePostal"
+             [(ngModel)]="structure.codePostal" required #codeP="ngModel" pKeyFilter="pint" maxlength="4" minlength="4">
+      <div  class="invalid-feedback">
+
+        <div *ngIf="codeP.errors?.required"> Code Postal réquis</div>
+        <div *ngIf="codeP.errors?.minlength"> Code Postal doit contenir 4 chiffres</div>
+      </div>
+
+    </div>
+    <div class="form-group col-sm-8">
+      <label>Site Web</label>
+      <input class="form-control {{f.submitted && site.invalid? 'is-invalid': ''}}" name="SiteWeb" [(ngModel)]="structure.siteWeb" required #site="ngModel">
+      <div  class="invalid-feedback">   Site Web réquis</div>
+
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="float-right">
+    <button type="reset" (click)="annuler()"  class="btn btn-danger mr-2">Annuler</button>
+    <button class="btn btn-success" type="submit">Sauvgarder</button>
+    </div>
+
+  </div>
+</div>
+</form>

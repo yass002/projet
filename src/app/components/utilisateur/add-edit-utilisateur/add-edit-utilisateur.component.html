@@ -1,0 +1,111 @@
+<form #f="ngForm" (ngSubmit)="f.form.valid && valider()">
+  <div class="card">
+    <div class="card-header">
+      {{title}}
+
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label>Nom</label>
+          <input class="form-control {{ f.submitted && nom.invalid? 'is-invalid': ''}}" name="nom"
+                 [(ngModel)]="user.nom" required #nom="ngModel">
+
+          <div class="invalid-feedback">Nom réquis</div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Prenom</label>
+          <input class="form-control {{ f.submitted && prenom.invalid? 'is-invalid': ''}}" name="prenom"
+                 [(ngModel)]="user.prenom" required #prenom="ngModel">
+          <div class="invalid-feedback">Prenom réquis</div>
+
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label>Username</label>
+          <input class="form-control {{ f.submitted && username.invalid? 'is-invalid': ''}}" name="username"
+                 [(ngModel)]="user.username" required #username="ngModel">
+          <div class="invalid-feedback">Username réquis</div>
+
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label>Cnrsp</label>
+          <input class="form-control  {{ f.submitted && cnrps.invalid? 'is-invalid': ''}}" name="cnrps"
+                 [(ngModel)]="user.cnrsp" required #cnrps="ngModel">
+          <div class="invalid-feedback">Cnrps réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Cin</label>
+          <input class="form-control  {{ f.submitted && cin.invalid? 'is-invalid': ''}}" name="cin"
+                 [(ngModel)]="user.cin" required #cin="ngModel">
+          <div class="invalid-feedback">Cin réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Grade</label>
+          <input class="form-control {{ f.submitted && grade.invalid? 'is-invalid': ''}}" name="grade"
+                 [(ngModel)]="user.grade" required #grade="ngModel">
+          <div class="invalid-feedback">Grade réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Fonction</label>
+          <input class="form-control {{ f.submitted && fonction.invalid? 'is-invalid': ''}}" name="fonction"
+                 [(ngModel)]="user.fonction" required #fonction="ngModel">
+          <div class="invalid-feedback">Fonction réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Mail</label>
+          <input class="form-control {{ f.submitted && mail.invalid? 'is-invalid': ''}}" name="mail"
+                 [(ngModel)]="user.mail" required #mail="ngModel">
+          <div class="invalid-feedback">Mail réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Adresse</label>
+          <input class="form-control  {{ f.submitted && adresse.invalid? 'is-invalid': ''}}" name="adresse"
+                 [(ngModel)]="user.adresse" required #adresse="ngModel">
+          <div class="invalid-feedback">Adresse réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Tel</label>
+          <input class="form-control {{ f.submitted && tel.invalid? 'is-invalid': ''}}" name="tel"
+                 [(ngModel)]="user.tel" required #tel="ngModel">
+          <div class="invalid-feedback">Tel réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Date</label>
+          <input class="form-control  {{ f.submitted && date.invalid? 'is-invalid': ''}}" name="date"
+                 [(ngModel)]="user.date" required #date="ngModel">
+          <div class="invalid-feedback">Date réquis</div>
+
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Position</label>
+          <input class="form-control {{ f.submitted && position.invalid? 'is-invalid': ''}}" name="position"
+                 [(ngModel)]="user.position" required #position="ngModel">
+          <div class="invalid-feedback">Position réquis</div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+    <div class="card-footer">
+      <div class="float-right">
+        <button type="reset" class="btn btn-danger mr-2">Annuler</button>
+        <button class="btn btn-success" type="submit">Sauvgarder</button>
+      </div>
+
+    </div>
+  </div>
+
+</form>

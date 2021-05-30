@@ -1,0 +1,101 @@
+<div class="card">
+  <div class="card-header">
+    <button class="btn btn-success float-right" (click)="clickAdd()">
+      <i class="fa fa-plus"></i> Ajout groupe
+    </button>
+  </div>
+
+  <div class="card-body">
+    <p-table [value]="groupes"
+             dataKey="id" #dt1
+             styleClass="p-datatable-customers p-datatable-gridlines"
+             [globalFilterFields]="['nomFr','nomAr']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+          <button  pButton label="Initialiser la recherche" class="p-button-outlined" icon="pi pi-refresh"
+                   (click)="getAll(); dt1.filterGlobal('', 'contains'); filter.value= ''"></button>
+          <span class="p-input-icon-left p-ml-auto float-right">
+                    <i class="pi pi-search"></i>
+                    <input #filter pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Cherche par nom ou code" />
+                </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nom FR</th>
+          <th>Nom AR</th>
+          <th width="15%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-grp>
+        <tr>
+          <td>{{grp.nomFr}}</td>
+          <td>{{grp.nomAr}}</td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="top"
+                    class="p-button-rounded p-button-danger mr-2" (click)="remove($event, grp.id)"></button>
+
+            <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                    class="p-button-rounded p-button-warning  mr-2" (click)="clickEdit(grp)"></button>
+
+
+            <button pButton pRipple type="button" icon="pi pi-eye" pTooltip="Application" tooltipPosition="top"
+                    class="p-button-rounded p-button-help" (click)="clickApplication(grp)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+
+
+  </div>
+</div>
+
+
+<p-dialog header="Groupe" [modal]="true" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+
+  <div class="form-group">
+    <label>Nom FR</label>
+    <input class="form-control" [(ngModel)]="groupe.nomFr" required #fr="ngModel">
+  </div>
+  <div class="form-group">
+    <label>Nom AR</label>
+    <input class="form-control" [(ngModel)]="groupe.nomAr" required #ar="ngModel">
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button  pButton pRipple  icon="pi pi-check"  [disabled]="fr.invalid || ar.invalid" (click)="valider()" label="Ok" class="p-button-outlined"></button>
+  </ng-template>
+</p-dialog>
+
+
+
+<p-dialog header="Application" [modal]="true" [(visible)]="displayApplication" [style]="{width: '50vw'}" [baseZIndex]="10000">
+
+
+  <p-table [value]="applications"
+           [(selection)]="selectedApplication" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Nom FR</th>
+        <th>Nom AR</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-grp>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="grp"></p-tableCheckbox>
+        </td>
+        <td>{{grp.nomFr}}</td>
+        <td>{{grp.nomAr}}</td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+  <ng-template pTemplate="footer">
+    <button  pButton pRipple  icon="pi pi-check"   (click)="affecter()" label="Ok" class="p-button-outlined"></button>
+  </ng-template>
+</p-dialog>

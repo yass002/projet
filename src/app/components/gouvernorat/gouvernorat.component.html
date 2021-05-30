@@ -1,0 +1,67 @@
+<div class="card">
+  <div class="card-header">
+    <button class="btn btn-success float-right" (click)="clickAdd()">
+      <i class="fa fa-plus"></i> Ajout Gouvernorat
+    </button>
+  </div>
+
+  <div class="card-body">
+    <p-table [value]="gouvernorats" dataKey="gouvernorat.id" #dt1
+             styleClass="p-datatable-customers p-datatable-gridlines"
+             [globalFilterFields]="['nomFr','nomAr']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex">
+          <button  pButton label="Initialiser la recherche" class="p-button-outlined" icon="pi pi-refresh"
+                   (click)="getAll(); dt1.filterGlobal('', 'contains'); filter.value= ''"></button>
+          <span class="p-input-icon-left p-ml-auto float-right">
+                    <i class="pi pi-search"></i>
+                    <input #filter pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Cherche par nom " />
+                </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nom FR</th>
+          <th>Nom AR</th>
+          <th width="15%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-gouv>
+        <tr>
+          <td>{{gouv.nomFr}}</td>
+          <td>{{gouv.nomAr}}</td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-trash" pTooltip="Supprimer" tooltipPosition="top"
+                    class="p-button-rounded p-button-danger mr-2" (click)="remove($event, gouv.id)"></button>
+
+            <button pButton pRipple type="button" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                    class="p-button-rounded p-button-warning  mr-2" (click)="clickEdit(gouv)"></button>
+
+            <button pButton pRipple type="button" icon="pi pi-eye" pTooltip="Délegation" tooltipPosition="top"
+                    class="p-button-rounded p-button-help" routerLink="/delegation/{{gouv.id}}"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+
+
+  </div>
+</div>
+
+
+<p-dialog header="Groupe" [modal]="true" [(visible)]="display" [style]="{width: '50vw'}" [baseZIndex]="10000">
+
+  <div class="form-group">
+    <label>Nom FR</label>
+    <input class="form-control" [(ngModel)]="gouvernorat.nomFr" required #fr="ngModel">
+  </div>
+  <div class="form-group">
+    <label>Nom AR</label>
+    <input class="form-control" [(ngModel)]="gouvernorat.nomAr" required #ar="ngModel">
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button  pButton pRipple  icon="pi pi-check"  [disabled]="fr.invalid || ar.invalid" (click)="valider()" label="Ok" class="p-button-outlined"></button>
+  </ng-template>
+</p-dialog>
